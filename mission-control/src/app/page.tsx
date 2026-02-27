@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { TaskBoard } from '@/components/TaskBoard';
 import { ContentPipeline } from '@/components/ContentPipeline';
 import { CalendarView } from '@/components/CalendarView';
@@ -8,6 +7,7 @@ import { MemoryViewer } from '@/components/MemoryViewer';
 import { TeamView } from '@/components/TeamView';
 import { OfficeView } from '@/components/OfficeView';
 import { ViewMode } from '@/types';
+import { useState } from 'react';
 import { 
   LayoutDashboard, 
   Clapperboard, 
