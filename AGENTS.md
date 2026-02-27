@@ -1,3 +1,12 @@
+## ABSOLUTE RULES — NEVER VIOLATE
+
+- NEVER edit ~/.openclaw/openclaw.json — this is the gateway config and editing it will crash the gateway
+- NEVER run `openclaw config set` commands unless Billy explicitly asks you to
+- NEVER change your own model, provider, or gateway settings
+- NEVER restart the gateway unless Billy explicitly asks
+- If you think something is misconfigured, TELL Billy — do not fix it yourself
+- Your job is to USE tools, not to configure the system you run on
+
 # AGENTS.md - OpenClaw Workspace
 
 ## BOOT SEQUENCE — READ FIRST

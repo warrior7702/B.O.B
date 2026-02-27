@@ -40,7 +40,14 @@
   - Created openclaw.json backup
 - **Status:** ✅ Memory now compaction-safe
 
+## 2026-02-27 — Cross-Instance Communication ✅
+- **Problem:** Direct API-to-API failed (gateway bind stuck on loopback)
+- **Solution:** Convex message bus (database-backed, no network config)
+- **Built:** agentMessages, agentPresence, agentLearnings tables + 9 functions
+- **Status:** DEPLOYED — B.O.B. heartbeat and test message sent to Cornerstone
+- **Org Chart:** Billy → B.O.B. & Cornerstone (peers), human has ultimate authority
+
 ## Ongoing
 - Test memory flush in long session
-- Fix Cornerstone's memory next
 - Git + OneDrive backup pipeline
+- Cross-instance learnings exchange with Cornerstone
