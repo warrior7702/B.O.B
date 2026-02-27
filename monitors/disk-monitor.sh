@@ -4,6 +4,10 @@
 
 set -euo pipefail
 
+# Source credentials
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[ -f "$SCRIPT_DIR/.env" ] && source "$SCRIPT_DIR/.env"
+
 THRESHOLD=90
 LOG_FILE="/Users/campoffice/.openclaw/workspace/monitors/disk-alerts.log"
 

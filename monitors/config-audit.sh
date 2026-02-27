@@ -4,6 +4,10 @@
 
 set -euo pipefail
 
+# Source credentials
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[ -f "$SCRIPT_DIR/.env" ] && source "$SCRIPT_DIR/.env"
+
 AUDIT_LOG="/Users/campoffice/.openclaw/workspace/monitors/config-audit.log"
 BASELINE_DIR="/Users/campoffice/.openclaw/workspace/monitors/baselines"
 

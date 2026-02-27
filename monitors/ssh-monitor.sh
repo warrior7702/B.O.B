@@ -2,6 +2,10 @@
 # SSH Brute Force Monitor for macOS
 # Sends Telegram alert on 5+ failed attempts in 10 minutes
 
+# Source credentials
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[ -f "$SCRIPT_DIR/.env" ] && source "$SCRIPT_DIR/.env"
+
 THRESHOLD=5
 WINDOW_MINUTES=10
 LOG_FILE="/Users/campoffice/.openclaw/workspace/monitors/ssh-alerts.log"
