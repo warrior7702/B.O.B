@@ -1,0 +1,7 @@
+node_modules/
+.git/
+.openclaw/
+*.log
+functions.write_141_{
+*.hash
+.DS_Store
