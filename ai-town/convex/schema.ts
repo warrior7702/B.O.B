@@ -21,6 +21,48 @@ export default defineSchema({
     .index('conversationId', ['worldId', 'conversationId'])
     .index('messageUuid', ['conversationId', 'messageUuid']),
 
+  // Agent Communication Tables (B.O.B. ↔ SCOUT)
+  agentMessages: defineTable({
+    fromAgent: v.string(),
+    toAgent: v.string(),
+    messageType: v.union(
+      v.literal('chat'),
+      v.literal('request'),
+      v.literal('response'),
+      v.literal('heartbeat')
+    ),
+    content: v.string(),
+    payload: v.optional(v.any()),
+    priority: v.number(), // 1-10
+    read: v.boolean(),
+    contextId: v.optional(v.string()), // for threading
+  })
+    .index('toAgent', ['toAgent', 'read'])
+    .index('fromAgent', ['fromAgent'])
+    .index('conversation', ['contextId']),
+
+  agentPresence: defineTable({
+    agentId: v.string(),
+    instanceId: v.string(), // which machine
+    status: v.union(v.literal('online'), v.literal('offline'), v.literal('busy')),
+    lastSeen: v.number(),
+    capabilities: v.array(v.string()),
+    currentTask: v.optional(v.string()),
+  })
+    .index('agentId', ['agentId'])
+    .index('status', ['status', 'lastSeen']),
+
+  agentLearnings: defineTable({
+    agentId: v.string(),
+    category: v.string(), // 'security', 'automation', 'config', etc
+    learning: v.string(),
+    source: v.optional(v.string()), // where it came from
+    confidence: v.number(), // 0-1
+    applied: v.boolean(),
+  })
+    .index('agentId', ['agentId', 'category'])
+    .index('unapplied', ['agentId', 'applied']),
+
   ...agentTables,
   ...aiTownTables,
   ...engineTables,
