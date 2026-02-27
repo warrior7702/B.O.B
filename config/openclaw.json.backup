@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.2.25",
+    "lastTouchedAt": "2026-02-27T06:28:21.323Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-27T02:54:31.658Z",
+    "lastRunVersion": "2026.2.25",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "openrouter:default": {
+        "provider": "openrouter",
+        "mode": "api_key"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/llama3.1"
+      },
+      "models": {
+        "openrouter/auto": {
+          "alias": "OpenRouter"
+        },
+        "openrouter/openrouter/auto": {},
+        "openrouter/moonshotai/kimi-k2.5": {}
+      },
+      "workspace": "/Users/campoffice/.openclaw/workspace",
+      "memorySearch": {
+        "query": {
+          "hybrid": {
+            "enabled": true,
+            "vectorWeight": 0.7,
+            "textWeight": 0.3
+          }
+        }
+      },
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "6h",
+        "keepLastAssistants": 3
+      },
+      "compaction": {
+        "mode": "safeguard",
+        "reserveTokensFloor": 20000,
+        "memoryFlush": {
+          "enabled": true,
+          "softThresholdTokens": 40000,
+          "prompt": "Write lasting notes to memory/YYYY-MM-DD.md. Focus on: key decisions, project status, lessons learned, active blockers.",
+          "systemPrompt": "Session nearing compaction. Store durable memories now."
+        }
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "model": "ollama/llama3.1",
+        "identity": {
+          "name": "B.O.B.",
+          "theme": "Curious Otter",
+          "emoji": "🦦"
+        }
+      }
+    ]
+  },
+  "tools": {
+    "sessions": {
+      "visibility": "self"
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "8740959001:AAEDwsnuqIM8MJpc67EvlHMo4J6tw1ia3N8",
+      "groupPolicy": "allowlist",
+      "streaming": "off"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "0.0.0.0",
+    "auth": {
+      "mode": "token",
+      "token": "ed313336fdb38d3af9db07973d0a7ca1039290f69802928d"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "nodes": {
+    "cornerstone": {
+      "name": "Cornerstone",
+      "designation": "🪨 FBCA AI Operations Manager",
+      "tailscaleIp": "100.96.16.30",
+      "gatewayUrl": "http://100.96.16.30:18789",
+      "role": "orchestrator",
+      "org": "First Baptist Church Arlington",
+      "status": "pending-handshake"
+    }
+  },
+  "plugins": {
+    "slots": {
+      "memory": "openclaw-mem0"
+    },
+    "entries": {
+      "telegram": {
+        "enabled": true
+      },
+      "openclaw-mem0": {
+        "enabled": true
+      },
+      "memory-core": {
+        "enabled": false
+      },
+      "memory-lancedb": {
+        "enabled": false
+      }
+    },
+    "installs": {
+      "openclaw-mem0": {
+        "source": "npm",
+        "spec": "@mem0/openclaw-mem0",
+        "installPath": "/Users/campoffice/.openclaw/extensions/openclaw-mem0",
+        "version": "0.1.2",
+        "resolvedName": "@mem0/openclaw-mem0",
+        "resolvedVersion": "0.1.2",
+        "resolvedSpec": "@mem0/openclaw-mem0@0.1.2",
+        "integrity": "sha512-Q+lwwKUqltMoO0occDdxnUK1xnA76qhT9oNhqpNzYKHEfB7uY4KA484mDSNPZ7KwJudS88bantKOprjhpU+BcA==",
+        "shasum": "41601f54f1ccfa9874b1e47066e9db5f6d7923ea",
+        "resolvedAt": "2026-02-27T01:47:00.878Z",
+        "installedAt": "2026-02-27T01:47:37.501Z"
+      }
+    }
+  }
+}
