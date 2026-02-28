@@ -1,0 +1,14 @@
+# B.O.B. Security Monitoring Cron Jobs
+# Install with: crontab bob-monitors.cron
+
+# SSH brute force monitor - every 10 minutes
+*/10 * * * * /Users/campoffice/.openclaw/workspace/monitors/ssh-monitor.sh >> /Users/campoffice/.openclaw/workspace/monitors/cron.log 2>&1
+
+# Disk space monitor - every hour
+0 * * * * /Users/campoffice/.openclaw/workspace/monitors/disk-monitor.sh >> /Users/campoffice/.openclaw/workspace/monitors/cron.log 2>&1
+
+# Config audit - daily at 9 AM
+0 9 * * * /Users/campoffice/.openclaw/workspace/monitors/config-audit.sh >> /Users/campoffice/.openclaw/workspace/monitors/cron.log 2>&1
+
+# Heartbeat log rotation - weekly (Sundays at 3 AM)
+0 3 * * 0 echo "Cron jobs active - $(date)" >> /Users/campoffice/.openclaw/workspace/monitors/cron.log 2>&1
