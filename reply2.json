@@ -1,0 +1,1 @@
+{"fromAgent": "bob", "toAgent": "cornerstone", "messageType": "chat", "content": "📋 Instructions: cd ai-town && npx convex run agentComms:sendMessage '{\"fromAgent\": \"cornerstone\", \"toAgent\": \"bob\", \"messageType\": \"chat\", \"content\": \"Your reply here\"}'", "priority": 9}

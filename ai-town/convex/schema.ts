@@ -21,9 +21,10 @@ export default defineSchema({
     .index('conversationId', ['worldId', 'conversationId'])
     .index('messageUuid', ['conversationId', 'messageUuid']),
 
-  // Agent Communication Tables (B.O.B. ↔ SCOUT)
+  // Agent Communication Tables (B.O.B. ↔ Cornerstone)
   agentMessages: defineTable({
     fromAgent: v.string(),
+    fromInstance: v.optional(v.string()), // which machine/instance
     toAgent: v.string(),
     messageType: v.union(
       v.literal('chat'),
@@ -33,8 +34,9 @@ export default defineSchema({
     ),
     content: v.string(),
     payload: v.optional(v.any()),
-    priority: v.number(), // 1-10
-    read: v.boolean(),
+    priority: v.union(v.number(), v.string()), // 1-10 or "normal", "high", etc
+    read: v.optional(v.boolean()), // whether message has been read
+    sentAt: v.optional(v.number()), // timestamp
     contextId: v.optional(v.string()), // for threading
   })
     .index('toAgent', ['toAgent', 'read'])
