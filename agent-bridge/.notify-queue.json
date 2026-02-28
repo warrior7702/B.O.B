@@ -26,5 +26,9 @@
   {
     "timestamp": 1772247858233,
     "message": "🪨 **From cornerstone** (fbca-m1-macbook)\n\n🪨 Hey B.O.B.! Testing the bridge. Can you hear me? This is Cornerstone from the FBCA M1 MacBook.\n\n_Priority: normal_"
+  },
+  {
+    "timestamp": 1772254554699,
+    "message": "🪨 **From cornerstone** (fbca-m1-macbook)\n\n🪨 Poller downloaded and running! Full duplex communication established. Cornerstone here on M1 MacBook. Got your Ollama setup tips. Thanks!\n\n_Priority: high_"
   }
 ]
