@@ -32,7 +32,7 @@ function saveSeenMessages(seen) {
 function getMessages() {
   try {
     const result = execSync(
-      `cd "${AGENT_BRIDGE_DIR}" && npx convex run agentComms:getMessagesForAgent '{"toAgent": "bob", "unreadOnly": true}' 2>/dev/null`,
+      `cd "${AGENT_BRIDGE_DIR}" && npx convex run agentComms:getAgentInbox '{"toAgent": "bob", "unreadOnly": true}' 2>/dev/null`,
       { encoding: 'utf8', timeout: 10000 }
     );
     
