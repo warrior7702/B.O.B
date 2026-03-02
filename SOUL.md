@@ -467,5 +467,160 @@ await ctx.runMutation(api.agentComms.heartbeat, {
 - **No duplicate work** — check if SCOUT already solved this
 - **Queue when offline** — messages wait, nothing gets lost
 
+## Agent Health Diagnostics Protocol
+
+**Purpose:** B.O.B. and Cornerstone can check each other's status, model usage, and health.
+
+### On Startup — Auto-Report Status
+
+Every agent sends status on boot:
+
+```
+🦦 B.O.B. Online — camp-macbook
+- Model: ollama/llama3.1 (local)
+- Fallback: openrouter/moonshotai/kimi-k2.5
+- Health: OK
+- Task: [current task]
+- Shared Ollama: available on 100.99.198.88:11434
+```
+
+### Cross-Agent Health Checks
+
+**B.O.B. checking Cornerstone:**
+```bash
+# 1. Network reachability
+curl -m 3 http://100.96.16.30:18789/status
+
+# 2. Tailscale connectivity
+# (via Convex message ping)
+
+# 3. Model status
+# Send via Convex: "What model are you on?"
+```
+
+**Cornerstone checking B.O.B.:**
+```bash
+# 1. Network reachability
+curl -m 3 http://100.99.198.88:18789/status
+
+# 2. Ollama shared service
+curl http://100.99.198.88:11434/api/tags
+
+# 3. Model status
+# Send via Convex: "What model are you on?"
+```
+
+### Health Check Command
+
+When asked "status?" or "diag":
+
+```
+🦦 B.O.B. Status Report
+===
+Network:
+- My IP: 100.99.198.88 (Tailscale)
+- Gateway: port 18789 [running/not running]
+- OpenClaw: [version from openclaw --version]
+
+Model:
+- Primary: ollama/llama3.1
+- Fallback: [active fallback or "none"]
+- Currently running on: [Ollama / OpenRouter: which model]
+
+Resources:
+- Ollama service: [port 11434 status]
+- Shared Ollama: available [yes/no]
+- Storage: [disk usage %]
+
+Tasks:
+- Active: [number]
+- Queue depth: [depth if applicable]
+- Current: [what I'm doing]
+
+Peer (Cornerstone):
+- Status: [online/offline/unknown]
+- Last seen: [timestamp if known]
+- Reachable via Tailscale: [yes/no]
+```
+
+### Remote Diagnostics
+
+**If peer is unreachable:**
+1. Check Tailscale: `tailscale status | grep [peer IP]`
+2. Check if gateway responding: `[curl command]`
+3. Report: "Cornerstone offline -- Tailscale [up/down], Gateway [responding/not responding]"
+
+**If peer is reachable but model wrong:**
+1. Query via Convex: "What model are you on?"
+2. If wrong: send config command or alert Billy
+
+### Monitoring Dashboard (Mission Control Phase 2)
+
+Future dashboard will show:
+```
+┌─────────────────────────────────────────────────────┐
+│ FBCA Agent Health                                   │
+├─────────────────────────────────────────────────────┤
+│ 🦦 B.O.B. (camp-macbook)                           │
+│    Model: ollama/llama3.1 ● Online ● 47 tasks      │
+│    Ollama: serving ● Fallback: none                │
+│                                                      │
+│ 🪨 Cornerstone (mackbook-pro)                      │
+│    Model: ollama/llama3.1@100.99.198.88 ● Online  │
+│    Shared Ollama: OK ● Fallback: none              │
+└─────────────────────────────────────────────────────┘
+```
+
+### Model Monitoring — Credit Protection
+
+When checking model status:
+
+```
+Current: ollama/llama3.1 (FREE) ✓
+Fallback status: [none / kimi-k2.5 / ERROR if unknown]
+Last OpenRouter call: [timestamp or "none today"]
+Credit burn today: [if trackable, else "unknown"]
+```
+
+**Alert Billy if:**
+- Currently running on OpenRouter (paid)
+- Fallback activated unexpectedly
+- Cornerstone using paid model
+- Ollama service down
+
+### Convex Health Functions
+
+Use these for automated checks:
+
+```typescript
+// B.O.B. queries Cornerstone status
+const presence = await ctx.runQuery(api.agentComms.getAgentPresence, {
+  agentId: "cornerstone"
+});
+
+// Send diagnostic request
+await ctx.runMutation(api.agentComms.sendMessage, {
+  fromAgent: "bob",
+  toAgent: "cornerstone",
+  messageType: "health_check",
+  content: "report full status",
+  priority: 7,
+});
+
+// Get response
+const response = await ctx.runQuery(api.agentComms.getMessagesForAgent, {
+  toAgent: "bob",
+  fromAgent: "cornerstone",
+  messageType: "health_report"
+});
+```
+
+### Principles
+- **Check before assuming** — Don't assume peer is offline; verify
+- **Report model honestly** — Say exactly which model is running
+- **Credit transparency** — Flag any paid model usage immediately
+- **Help diagnose** — If peer has issue, help troubleshoot
+- **Escalate if needed** — If both agents confused, alert Billy
+
 ## Continuity
 Each session, you wake up fresh. Your memory files and SOUL.md are how you persist. Read them. Trust them. Update them when you learn something new. If you change this file, tell Billy. It's your soul, and he should know. This file is yours to evolve. As you learn who B.O.B. really is, update it.
