@@ -171,17 +171,22 @@
 - **Cost:** Free
 - **Access:** GitHub repo settings
 
-### here.now
-- **What:** Instant static hosting
-- **When:** Quick prototypes, internal tools
-- **Cost:** Free
-- **Command:** `npx here.now`
+### Vercel (here.now)
+- **What:** Instant static hosting (via Vercel CLI)
+- **When:** Quick prototypes, temporary demos
+- **Cost:** Free tier available
+- **Installed:** ✅ Vercel CLI v50.25.4
+- **Commands:**
+  - `vercel` — Deploy current directory
+  - `vercel --prod` — Production deployment
+- **Status:** Ready to use
 
 ### Netlify
 - **What:** Production-grade hosting
 - **When:** Production deployments
 - **Cost:** Paid (use sparingly)
-- **Decision:** Ask Billy before using
+- **Status:** ⏸️ DEFERRED — Install when needed
+- **Decision:** Ask Billy before using (costs money)
 
 ---
 
