@@ -1,5 +1,10 @@
 # .gitignore for OpenClaw Workspace
 
+# Secrets and API keys
+.secrets
+*.secrets
+secrets/
+
 # Next.js build cache
 mission-control/.next/
 
