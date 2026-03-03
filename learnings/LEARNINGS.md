@@ -38,3 +38,6 @@
 - Ollama on Intel Mac: Use Llama 3.1 8B (5GB) over Qwen 3.5 (25GB) for speed/space
 - brew link --overwrite fixes symlink conflicts
 - Ollama model pull: 4-5GB downloads take 10-30 min depending on connection
+
+## Added: 2026-03-02 — HARD RULE
+**NEVER suggest or attempt to switch to Ollama — Billy has explicitly stated it "never works" and trying causes repeated frustration. DO NOT bring up Ollama unprompted. EVER.**

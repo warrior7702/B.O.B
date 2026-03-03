@@ -13,9 +13,10 @@ export default defineSchema({
       v.literal("in-progress"),
       v.literal("review"),
       v.literal("done"),
-      v.literal("blocked")
+      v.literal("blocked"),
+      v.literal("backlog")
     ),
-    assignee: v.union(v.literal("billy"), v.literal("bob")),
+    assignee: v.string(),
     priority: v.union(
       v.literal("low"),
       v.literal("medium"),
@@ -26,6 +27,9 @@ export default defineSchema({
     updatedAt: v.number(),
     dueDate: v.optional(v.number()),
     tags: v.optional(v.array(v.string())),
+    archived: v.optional(v.boolean()),
+    category: v.optional(v.string()),
+    fromMessageId: v.optional(v.id("messages")),
   })
     .index("by_status", ["status"])
     .index("by_assignee", ["assignee"])
@@ -69,18 +73,54 @@ export default defineSchema({
 
   memories: defineTable({
     content: v.string(),
-    category: v.union(
-      v.literal("daily"),
-      v.literal("learning"),
-      v.literal("project"),
-      v.literal("system")
-    ),
+    category: v.string(),
     createdAt: v.number(),
     tags: v.optional(v.array(v.string())),
     source: v.optional(v.string()),
+    agentId: v.optional(v.string()),
+    relevanceScore: v.optional(v.number()),
+    sourceFile: v.optional(v.string()),
+    title: v.optional(v.string()),
+    citations: v.optional(v.array(v.any())),
   })
     .index("by_category", ["category"])
     .index("by_createdAt", ["createdAt"]),
+
+  ideas: defineTable({
+    title: v.string(),
+    description: v.string(),
+    source: v.optional(v.string()), // where the idea came from
+    effort: v.union(v.literal("low"), v.literal("medium"), v.literal("high")),
+    impact: v.union(v.literal("low"), v.literal("medium"), v.literal("high")),
+    status: v.union(
+      v.literal("pending"),    // waiting for Billy review
+      v.literal("approved"),   // Billy said yes
+      v.literal("passed"),     // Billy said no
+      v.literal("building"),   // agent is building it
+      v.literal("done")        // shipped
+    ),
+    generatedBy: v.string(),   // compass
+    generatedAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    tags: v.optional(v.array(v.string())),
+    notes: v.optional(v.string()), // Billy's comments
+  })
+    .index("by_status", ["status"])
+    .index("by_generatedAt", ["generatedAt"]),
+
+  agentMemory: defineTable({
+    agentId: v.string(),
+    date: v.string(), // YYYY-MM-DD
+    summary: v.string(), // What the agent did today
+    tasksCompleted: v.optional(v.array(v.string())),
+    blockers: v.optional(v.array(v.string())),
+    learnings: v.optional(v.array(v.string())),
+    nextSteps: v.optional(v.array(v.string())),
+    createdAt: v.number(),
+  })
+    .index("by_agentId", ["agentId"])
+    .index("by_date", ["date"])
+    .index("by_agentId_date", ["agentId", "date"]),
 
   team: defineTable({
     name: v.string(),

@@ -55,4 +55,4 @@ export interface TeamMember {
   skills: string[];
 }
 
-export type ViewMode = 'tasks' | 'content' | 'calendar' | 'memory' | 'team' | 'office';
+export type ViewMode = 'status' | 'tasks' | 'content' | 'calendar' | 'memory' | 'team' | 'office';

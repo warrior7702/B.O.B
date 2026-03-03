@@ -1,0 +1,52 @@
+## 15:45 — ROOT CAUSE DISCOVERED: Telegram Sessions Crash on Model Error
+
+### The Real Problem
+Checked gateway logs and found Telegram IS working:
+```
+lane=session:agent:main:telegram:direct:8246157834
+```
+
+**Telegram messages ARE coming in and creating sessions** — but those sessions immediately crash with:
+```
+FailoverError: Unknown model: ollama/llama3.1. Ollama requires authentication
+```
+
+### Why This Happens
+- **Webchat session** (this one): Running on Kimi-k2.5 — WORKING
+- **Telegram sessions**: Inheriting default model (ollama/llama3.1) — BROKEN
+- The Telegram plugin creates new sessions per conversation, and those sessions use the configured default model (Ollama), not the current session's model
+
+### Key Decisions
+1. **Telegram infrastructure is fine** — polling works, messages arrive
+2. **Model configuration is the blocker** — Telegram sessions die on Ollama error
+3. **Fix approach**: Change default model away from Ollama to working model (Kimi)
+
+### Attempted Fix (15:47)
+- Tried: `openclaw config set agents.main.model openrouter/moonshotai/kimi-k2.5`
+- Failed: "Unrecognized key: main"
+- Tried: `openclaw config set agents.main.defaultModel ...`
+- Failed: Same error
+- **Gateway restart in progress** to apply any pending changes
+
+### Project Status
+- **Telegram inbound:** ✅ Messages arriving (confirmed in logs)
+- **Session creation:** ✅ Working (sessions spawn for each chat)
+- **Session execution:** ❌ Crashing on Ollama model error
+- **Fix in progress:** Gateway restart + config changes
+
+### Lessons Learned
+- **Different channels = different sessions** — Telegram doesn't reuse webchat session
+- **Each session loads its own model** — webchat can work while Telegram breaks
+- **Gateway logs reveal truth** — always check logs before guessing
+- **Ollama configuration affects ALL new sessions** — not just current one
+
+### Active Blockers
+- **CRITICAL:** Telegram sessions crash immediately on spawn
+- **NEED:** Set default model to Kimi (or any working model)
+- **ONGOING:** Gateway restart to apply config changes
+
+### Next Steps
+1. Verify gateway restarted successfully
+2. Send test message from Telegram
+3. Check if new session uses correct model
+4. Document fix in SOUL.md or MEMORY.md

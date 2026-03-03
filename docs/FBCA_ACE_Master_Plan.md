@@ -76,6 +76,18 @@ BILLY NELMS (Human Authority)
 | SECURITY | Shield | 🛡️ | Threat Monitoring | "SECURITY, alert" |
 | MAKER | Hammer | 🔨 | Automation | "MAKER, build" |
 | MINER | Pickaxe | ⛏️ | Research | "MINER, dig" |
+| SILO | Server | 🗄️ | Server & Synology Mgmt | "SILO, manage" |
+| SIGNAL | Phone | 📱 | Phone & Device Mgmt | "SIGNAL, check" |
+| HVAC | Thermostat | 🌡️ | Climate & Facilities | "HVAC, monitor" |
+
+### 1.3 Specialized Domains (Future Agents)
+
+| Domain | Agent | Scope |
+|--------|-------|-------|
+| **Server Management** | SILO 🗄️ | File server health, backups, storage alerts, Synology DSM monitoring |
+| **Synology NAS** | SILO 🗄️ | Storage pools, shared folders, replication, DSM updates |
+| **Phones / Devices** | SIGNAL 📱 | Device inventory, MDM alerts, Teams Phone, voicemail monitoring |
+| **HVAC / Facilities** | HVAC 🌡️ | Thermostat schedules, alerts for out-of-range temps, pre-event climate prep |
 
 ---
 

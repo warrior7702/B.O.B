@@ -11,7 +11,7 @@ WINDOW_MINUTES=10
 LOG_FILE="/Users/campoffice/.openclaw/workspace/monitors/ssh-alerts.log"
 
 # Count failed SSH attempts in last N minutes
-failed_attempts=$(log show --predicate 'eventMessage contains "authentication failure" OR eventMessage contains "Failed password"' --last ${WINDOW_MINUTES}m 2>/dev/null | wc -l)
+failed_attempts=$(log show --predicate 'process == "sshd" AND (eventMessage contains "Failed password" OR eventMessage contains "Invalid user" OR eventMessage contains "authentication failure")' --last ${WINDOW_MINUTES}m 2>/dev/null | grep -v "^Filtering" | grep -v "^Timestamp" | grep -c . || true)
 
 if [ "$failed_attempts" -ge "$THRESHOLD" ]; then
     MESSAGE="🚨 SSH ALERT: ${failed_attempts} failed login attempts in last ${WINDOW_MINUTES} minutes on $(hostname -s)"

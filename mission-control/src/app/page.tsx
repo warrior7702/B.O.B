@@ -1,32 +1,38 @@
 'use client';
 
 import { TaskBoard } from '@/components/TaskBoard';
+import { AgentStatusPanel } from '@/components/AgentStatus';
 import { ContentPipeline } from '@/components/ContentPipeline';
 import { CalendarView } from '@/components/CalendarView';
 import { MemoryViewer } from '@/components/MemoryViewer';
 import { TeamView } from '@/components/TeamView';
 import { OfficeView } from '@/components/OfficeView';
+import { IdeasQueue } from '@/components/IdeasQueue';
 import { ViewMode } from '@/types';
 import { useState } from 'react';
 import { 
   LayoutDashboard, 
+  Activity,
   Clapperboard, 
   Calendar, 
   Brain, 
   Users, 
-  Building2 
+  Building2,
+  Compass
 } from 'lucide-react';
 
 export default function MissionControl() {
-  const [currentView, setCurrentView] = useState<ViewMode>('tasks');
+  const [currentView, setCurrentView] = useState<ViewMode>('status');
 
   const navigation = [
+    { id: 'status', label: 'Agent Status', icon: Activity },
     { id: 'tasks', label: 'Tasks', icon: LayoutDashboard },
     { id: 'content', label: 'Content', icon: Clapperboard },
     { id: 'calendar', label: 'Calendar', icon: Calendar },
     { id: 'memory', label: 'Memory', icon: Brain },
     { id: 'team', label: 'Team', icon: Users },
     { id: 'office', label: 'Office', icon: Building2 },
+    { id: 'ideas', label: 'COMPASS', icon: Compass },
   ] as const;
 
   return (
@@ -48,7 +54,7 @@ export default function MissionControl() {
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
               Online
             </span>
-            <span>Qwen 2.5</span>
+            <span className="text-cyan-400">anthropic/claude-sonnet-4-6</span>
           </div>
         </div>
       </header>
@@ -79,12 +85,14 @@ export default function MissionControl() {
 
         {/* Main Content */}
         <main className="flex-1 p-6 overflow-auto">
+          {currentView === 'status' && <AgentStatusPanel />}
           {currentView === 'tasks' && <TaskBoard />}
           {currentView === 'content' && <ContentPipeline />}
           {currentView === 'calendar' && <CalendarView />}
           {currentView === 'memory' && <MemoryViewer />}
           {currentView === 'team' && <TeamView />}
           {currentView === 'office' && <OfficeView />}
+          {currentView === 'ideas' && <IdeasQueue />}
         </main>
       </div>
     </div>

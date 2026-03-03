@@ -30,7 +30,13 @@ export const getMessagesForAgent = query({
   handler: async (ctx, args) => {
     let messages = await ctx.db
       .query('agentMessages')
-      .withIndex('toAgent', (q) => q.eq('toAgent', args.toAgent))
+      .withIndex('fromAgent', (q) => q.eq('fromAgent', args.toAgent))
+      .order('desc')
+      .take(0); // placeholder
+    // Use full table scan filtered by toAgent (index workaround)
+    messages = await ctx.db
+      .query('agentMessages')
+      .filter((q) => q.eq(q.field('toAgent'), args.toAgent))
       .order('desc')
       .take(args.limit ?? 50);
     if (args.unreadOnly) {

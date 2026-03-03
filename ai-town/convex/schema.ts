@@ -30,7 +30,8 @@ export default defineSchema({
       v.literal('chat'),
       v.literal('request'),
       v.literal('response'),
-      v.literal('heartbeat')
+      v.literal('heartbeat'),
+      v.literal('intel')
     ),
     content: v.string(),
     payload: v.optional(v.any()),
@@ -64,6 +65,41 @@ export default defineSchema({
   })
     .index('agentId', ['agentId', 'category'])
     .index('unapplied', ['agentId', 'applied']),
+
+  // Agent Memory System (Daily logging)
+  agentMemory: defineTable({
+    agentId: v.string(),
+    instanceId: v.optional(v.string()), // which machine
+    date: v.string(), // YYYY-MM-DD
+    timestamp: v.number(),
+    entryType: v.union(
+      v.literal('action'),
+      v.literal('decision'),
+      v.literal('error'),
+      v.literal('learning'),
+      v.literal('task_completed')
+    ),
+    content: v.string(),
+    relatedTask: v.optional(v.string()),
+    importance: v.number(), // 1-10
+    tags: v.array(v.string()),
+    metadata: v.optional(v.any()), // flexible extra info
+  })
+    .index('agentDate', ['agentId', 'date'])
+    .index('date', ['date'])
+    .index('entryType', ['agentId', 'entryType'])
+    .index('importance', ['agentId', 'importance']),
+
+  memorySummary: defineTable({
+    agentId: v.string(),
+    weekOf: v.string(), // ISO week date
+    keyDecisions: v.array(v.string()),
+    lessonsLearned: v.array(v.string()),
+    patternsIdentified: v.array(v.string()),
+    nextWeekPriorities: v.array(v.string()),
+    generatedAt: v.number(),
+  })
+    .index('agentWeek', ['agentId', 'weekOf']),
 
   ...agentTables,
   ...aiTownTables,
