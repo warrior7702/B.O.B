@@ -41,3 +41,4 @@
 
 ## Added: 2026-03-02 — HARD RULE
 **NEVER suggest or attempt to switch to Ollama — Billy has explicitly stated it "never works" and trying causes repeated frustration. DO NOT bring up Ollama unprompted. EVER.**
+Never configure Ollama via auth.profiles — use `openclaw config set models.providers.ollama.apiKey ollama-local` — auth profiles don't work for Ollama
