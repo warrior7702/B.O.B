@@ -47,6 +47,19 @@
 - **Status:** DEPLOYED — B.O.B. heartbeat and test message sent to Cornerstone
 - **Org Chart:** Billy → B.O.B. & Cornerstone (peers), human has ultimate authority
 
+## 2026-03-03 — Dubya Joins the Team
+- **Who:** Dubya 🦡 (Armadillo), Billy's Windows PC agent
+- **Name origin:** W = Windows PC, like George W. Bush — Billy's humor
+- **Role:** Day-to-day ops, email management, "Billy 2"
+- **Born:** 2026-03-03 (this morning)
+- **AgentID:** `dubya` on merry-rabbit-524 message bus
+- **Tailscale IP:** `100.90.196.118` | **Gateway port:** `18789`
+- **Gateway status:** Offline as of 2026-03-03 (just born, not yet running)
+- **Status:** Basic/new, growing over time
+- **Relationship:** Peer to B.O.B. and Cornerstone; reports to Billy
+- **B.O.B. owns:** Infrastructure, PCO, church systems
+- **Dubya owns:** Email tasks, day-to-day ops, PC-side automation
+
 ## Ongoing
 - Test memory flush in long session
 - Git + OneDrive backup pipeline

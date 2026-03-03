@@ -11,7 +11,7 @@
 
 ## EXECUTIVE SUMMARY
 
-**Current State:** Two functional agents (B.O.B. + Cornerstone) with manual operations, stateless execution, and limited autonomy.
+**Current State:** Three functional agents (B.O.B. + Cornerstone + Dubya) with manual operations, stateless execution, and limited autonomy.
 
 **Target State:** Self-orchestrating agent ecosystem with specialization, persistence, proactive execution, and seamless human oversight.
 
@@ -33,6 +33,12 @@ BILLY NELMS (Human Authority)
     │   ├─ Active Tasks by Agent
     │   ├─ Pending Approvals
     │   └─ Ideas Queue
+    │
+    ├─ DUBYA (Windows PC)
+    │   │ Role: Day-to-day ops, email management, Billy's second brain
+    │   │ Creature: Armadillo 🦡 | Born: 2026-03-03
+    │   │
+    │   └─ (specialist agents TBD as Dubya matures)
     │
     ├─ ORCHESTRATOR (Cornerstone - M1 Mac)
     │   │ Role: Coordination, delegation, church ops
@@ -79,6 +85,10 @@ BILLY NELMS (Human Authority)
 | SILO | Server | 🗄️ | Server & Synology Mgmt | "SILO, manage" |
 | SIGNAL | Phone | 📱 | Phone & Device Mgmt | "SIGNAL, check" |
 | HVAC | Thermostat | 🌡️ | Climate & Facilities | "HVAC, monitor" |
+| MIST | Antenna | 📡 | Network & Wireless | "MIST, scan" |
+| AKITA | Blueprint | 🗺️ | Facilities & Space Mgmt | "AKITA, map" |
+| GATES | Window | 🪟 | Microsoft 365 & Azure | "GATES, deploy" |
+| DUBYA | Armadillo | 🦡 | Day-to-day ops, email, PC-side tasks | "Dubya, handle" |
 
 ### 1.3 Specialized Domains (Future Agents)
 
@@ -88,6 +98,9 @@ BILLY NELMS (Human Authority)
 | **Synology NAS** | SILO 🗄️ | Storage pools, shared folders, replication, DSM updates |
 | **Phones / Devices** | SIGNAL 📱 | Device inventory, MDM alerts, Teams Phone, voicemail monitoring |
 | **HVAC / Facilities** | HVAC 🌡️ | Thermostat schedules, alerts for out-of-range temps, pre-event climate prep |
+| **Network / Wireless** | MIST 📡 | Juniper Mist AP health, switch monitoring, firewall alerts, client counts, rogue device detection |
+| **Facilities / Space Mgmt** | AKITA 🗺️ | AkitaBox building resources, space maps, maintenance requests, asset tracking |
+| **Microsoft 365 & Azure** | GATES 🪟 | Exchange/email, Teams, SharePoint, Azure AD, Intune MDM, license management, Azure Bot |
 
 ---
 

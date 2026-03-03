@@ -108,6 +108,60 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_generatedAt", ["generatedAt"]),
 
+  workflows: defineTable({
+    name: v.string(),
+    description: v.string(),
+    status: v.union(
+      v.literal("pending"),    // waiting to start
+      v.literal("running"),    // in progress
+      v.literal("waiting"),    // waiting for approval or external input
+      v.literal("done"),       // completed
+      v.literal("failed")      // errored out
+    ),
+    steps: v.array(v.object({
+      id: v.string(),
+      agent: v.string(),
+      action: v.string(),
+      status: v.union(v.literal("pending"), v.literal("running"), v.literal("done"), v.literal("failed"), v.literal("skipped")),
+      input: v.optional(v.any()),
+      output: v.optional(v.any()),
+      error: v.optional(v.string()),
+      startedAt: v.optional(v.number()),
+      completedAt: v.optional(v.number()),
+    })),
+    currentStep: v.number(),
+    triggeredBy: v.string(),    // what started this (cron name, agent, user)
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    completedAt: v.optional(v.number()),
+    metadata: v.optional(v.any()),
+  })
+    .index("by_status", ["status"])
+    .index("by_createdAt", ["createdAt"]),
+
+  pendingActions: defineTable({
+    title: v.string(),
+    description: v.string(),
+    agent: v.string(),           // who's asking (calvin, doory, bob, etc.)
+    actionType: v.string(),      // door_schedule, email_send, config_change, etc.
+    payload: v.any(),            // the actual data to act on when approved
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("denied"),
+      v.literal("executed"),
+      v.literal("expired")
+    ),
+    priority: v.union(v.literal("low"), v.literal("medium"), v.literal("high"), v.literal("urgent")),
+    createdAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    expiresAt: v.optional(v.number()),  // auto-expire stale approvals
+    notes: v.optional(v.string()),      // Billy's comments
+  })
+    .index("by_status", ["status"])
+    .index("by_agent", ["agent"])
+    .index("by_createdAt", ["createdAt"]),
+
   agentMemory: defineTable({
     agentId: v.string(),
     date: v.string(), // YYYY-MM-DD

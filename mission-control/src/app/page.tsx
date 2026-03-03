@@ -8,6 +8,10 @@ import { MemoryViewer } from '@/components/MemoryViewer';
 import { TeamView } from '@/components/TeamView';
 import { OfficeView } from '@/components/OfficeView';
 import { IdeasQueue } from '@/components/IdeasQueue';
+import { DoorStatus } from '@/components/DoorStatus';
+import { ApprovalsQueue } from '@/components/ApprovalsQueue';
+import { CronHealth } from '@/components/CronHealth';
+import { Workflows } from '@/components/Workflows';
 import { ViewMode } from '@/types';
 import { useState } from 'react';
 import { 
@@ -18,7 +22,10 @@ import {
   Brain, 
   Users, 
   Building2,
-  Compass
+  Compass,
+  DoorOpen,
+  ShieldCheck,
+  GitBranch
 } from 'lucide-react';
 
 export default function MissionControl() {
@@ -33,6 +40,10 @@ export default function MissionControl() {
     { id: 'team', label: 'Team', icon: Users },
     { id: 'office', label: 'Office', icon: Building2 },
     { id: 'ideas', label: 'COMPASS', icon: Compass },
+    { id: 'doors', label: 'DOORY', icon: DoorOpen },
+    { id: 'approvals', label: 'Approvals', icon: ShieldCheck },
+    { id: 'cronhealth', label: 'Cron Health', icon: Activity },
+    { id: 'workflows', label: 'Workflows', icon: GitBranch },
   ] as const;
 
   return (
@@ -93,6 +104,10 @@ export default function MissionControl() {
           {currentView === 'team' && <TeamView />}
           {currentView === 'office' && <OfficeView />}
           {currentView === 'ideas' && <IdeasQueue />}
+          {currentView === 'doors' && <DoorStatus />}
+          {currentView === 'approvals' && <ApprovalsQueue />}
+          {currentView === 'cronhealth' && <CronHealth />}
+          {currentView === 'workflows' && <Workflows />}
         </main>
       </div>
     </div>

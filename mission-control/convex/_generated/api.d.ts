@@ -9,9 +9,11 @@
  */
 
 import type * as agentMemory from "../agentMemory.js";
+import type * as approvals from "../approvals.js";
 import type * as ideas from "../ideas.js";
 import type * as learnings from "../learnings.js";
 import type * as tasks from "../tasks.js";
+import type * as workflows from "../workflows.js";
 
 import type {
   ApiFromModules,
@@ -21,9 +23,11 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   agentMemory: typeof agentMemory;
+  approvals: typeof approvals;
   ideas: typeof ideas;
   learnings: typeof learnings;
   tasks: typeof tasks;
+  workflows: typeof workflows;
 }>;
 
 /**

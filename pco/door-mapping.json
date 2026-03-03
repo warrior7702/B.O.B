@@ -1,0 +1,20 @@
+{
+  "doors": [
+    { "id": 1,   "name": "WADE-EXT-N",           "description": "Wade Building (North)",              "qty": 1 },
+    { "id": 27,  "name": "SC-EXT-E",              "description": "Student Center East",                "qty": 1 },
+    { "id": 71,  "name": "FBC-EXT-FH",            "description": "Courtyard - Fellowship Hall",        "qty": 1 },
+    { "id": 86,  "name": "FBC-EXT-Parlor East",   "description": "PCB Parlor East",                   "qty": 1 },
+    { "id": 87,  "name": "FBC-EXT-Center Street", "description": "Center Street Commons South Entrance","qty": 1 },
+    { "id": 193, "name": "PCB-EXT-COURT",         "description": "Courtyard - PCB",                   "qty": 1 },
+    { "id": 224, "name": "SC-EXT-W",              "description": "Student Center West",                "qty": 1 },
+    { "id": 225, "name": "SC-EXT-S",              "description": "Student Center South",               "qty": 1 },
+    { "id": 240, "name": "FBC-EXT-East Hall",     "description": "Hall Ramp Entrance",                "qty": 1 },
+    { "id": 241, "name": "FBC-EXT-Courtyard Gate","description": "Courtyard Gate Only",               "qty": 1 },
+    { "id": 280, "name": "FBC-F1-Hamill South",   "description": "Hamill Welcome Center",             "qty": 1 },
+    { "id": 281, "name": "FBC-EXT-Chapel",        "description": "Chapel",                            "qty": 1 }
+  ],
+  "note": "Total: 12 doors (Student Center counts as 3 physical doors, 1 group). Corrections applied: FBC-EXT-Parlor East (86), FBC-EXT-East Hall (240).",
+  "event_mappings": {
+    "_note": "TO BE DEFINED — waiting on Billy input for event type → door assignments and time buffers"
+  }
+}
