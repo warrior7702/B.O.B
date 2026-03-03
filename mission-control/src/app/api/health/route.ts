@@ -75,6 +75,16 @@ export async function GET() {
         currentTask: 'Awaiting tasks',
         location: 'FBCA Office (M1)',
       },
+      {
+        id: 'dubya',
+        name: 'Dubya',
+        emoji: '🦡',
+        status: 'online',
+        model: 'openrouter/deepseek/deepseek-r1',
+        lastSeen: 'Just now',
+        currentTask: 'Standing by',
+        location: 'FBCA Office (Windows PC)',
+      },
     ],
   });
 }

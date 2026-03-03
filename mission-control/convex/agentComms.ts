@@ -80,7 +80,7 @@ export const getAgentPresence = query({
     if (args.agentId) {
       return await ctx.db
         .query('agentPresence')
-        .withIndex('agentId', (q) => q.eq('agentId', args.agentId))
+        .withIndex('agentId', (q) => q.eq('agentId', args.agentId!))
         .first();
     }
     return await ctx.db.query('agentPresence').collect();

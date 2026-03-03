@@ -98,6 +98,22 @@ export const deny = mutation({
   },
 });
 
+// Get approved actions not yet executed — for DOORY/executor polling
+export const getApprovedUnexecuted = query({
+  args: { actionType: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    const approved = await ctx.db
+      .query("pendingActions")
+      .withIndex("by_status", (q) => q.eq("status", "approved"))
+      .order("desc")
+      .collect();
+    if (args.actionType) {
+      return approved.filter(a => a.actionType === args.actionType);
+    }
+    return approved;
+  },
+});
+
 // Mark as executed after agent acts on approval
 export const markExecuted = mutation({
   args: { id: v.id("pendingActions") },
