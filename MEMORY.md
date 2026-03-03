@@ -60,7 +60,22 @@
 - **B.O.B. owns:** Infrastructure, PCO, church systems
 - **Dubya owns:** Email tasks, day-to-day ops, PC-side automation
 
+## 2026-03-03 — ACE Phase 3 Complete
+- All 3 agents online: B.O.B. 🦦, Cornerstone 🪨, Dubya 🦡 — Convex message bus live
+- DOORY execution loop closed: CALVIN detects → Billy approves → DOORY POSTs to Door Control → confirms
+- Self-healing LaunchAgent: `ai.openclaw.selfheal.plist` monitors gateway + Mission Control every 5 min
+- Mobile Mission Control: bottom nav (Status/Approvals/Doors/Comms/Tasks) + More drawer
+- Convex split resolved: mission-control is ONLY source of truth for merry-rabbit-524 — never deploy from agent-bridge again
+- GitHub commit: `e7025b5`
+
+## CRITICAL: Convex Deploy Rule
+- NEVER run `npx convex deploy` from agent-bridge/ — it will wipe agentComms functions
+- mission-control/convex/ is the single source of truth for merry-rabbit-524
+- agentComms.ts lives in mission-control/convex/ now
+
 ## Ongoing
+- Dubya still a ghost — needs real tasks (email read access)
 - Test memory flush in long session
 - Git + OneDrive backup pipeline
-- Cross-instance learnings exchange with Cornerstone
+- PCO → Door bridge: tabled until Cornerstone model decision
+- Domain decision: Wednesday 9 AM reminder set
