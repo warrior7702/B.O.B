@@ -52,6 +52,23 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_messages_created ON messages(createdAt DESC);
   CREATE INDEX IF NOT EXISTS idx_messages_toAgent  ON messages(toAgent);
+
+  CREATE TABLE IF NOT EXISTS tasks (
+    id          TEXT PRIMARY KEY,
+    title       TEXT NOT NULL,
+    description TEXT,
+    status      TEXT NOT NULL DEFAULT 'todo',
+    assignee    TEXT DEFAULT 'bob',
+    priority    TEXT DEFAULT 'medium',
+    category    TEXT,
+    tags        TEXT DEFAULT '[]',
+    dueDate     INTEGER,
+    createdAt   INTEGER NOT NULL,
+    updatedAt   INTEGER NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_tasks_status   ON tasks(status);
+  CREATE INDEX IF NOT EXISTS idx_tasks_assignee ON tasks(assignee);
 `);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -62,6 +79,18 @@ function fmtMsg(r) {
     fromAgent: r.fromAgent, toAgent: r.toAgent,
     messageType: r.messageType, content: r.content,
     read: r.read === 1, priority: r.priority, contextId: r.contextId,
+  };
+}
+
+function fmtTask(r) {
+  return {
+    _id: r.id, _creationTime: r.createdAt,
+    title: r.title, description: r.description || '',
+    status: r.status, assignee: r.assignee,
+    priority: r.priority, category: r.category || '',
+    tags: r.tags ? JSON.parse(r.tags) : [],
+    dueDate: r.dueDate || null,
+    createdAt: r.createdAt, updatedAt: r.updatedAt,
   };
 }
 
@@ -220,6 +249,62 @@ const server = createServer(async (req, res) => {
       const l = { id: randomUUID(), agentId: agentId.toLowerCase(), content, category, createdAt: Date.now() };
       db.prepare('INSERT INTO learnings (id,agentId,content,category,createdAt) VALUES (?,?,?,?,?)').run(l.id, l.agentId, l.content, l.category, l.createdAt);
       return json(res, 201, l);
+    }
+
+    // GET /tasks
+    if (method === 'GET' && path === '/tasks') {
+      const assignee = q.assignee;
+      const status = q.status;
+      let rows;
+      if (assignee && status) {
+        rows = db.prepare('SELECT * FROM tasks WHERE assignee=? AND status=? ORDER BY createdAt DESC').all(assignee.toLowerCase(), status);
+      } else if (assignee) {
+        rows = db.prepare('SELECT * FROM tasks WHERE assignee=? ORDER BY createdAt DESC').all(assignee.toLowerCase());
+      } else if (status) {
+        rows = db.prepare('SELECT * FROM tasks WHERE status=? ORDER BY createdAt DESC').all(status);
+      } else {
+        rows = db.prepare('SELECT * FROM tasks ORDER BY createdAt DESC LIMIT 200').all();
+      }
+      return json(res, 200, rows.map(fmtTask));
+    }
+
+    // POST /tasks
+    if (method === 'POST' && path === '/tasks') {
+      const body = await parseBody(req);
+      const { title, description, status = 'todo', assignee = 'bob', priority = 'medium', category, tags = [], dueDate } = body;
+      if (!title) return json(res, 400, { error: 'title required' });
+      const now = Date.now();
+      const t = { id: randomUUID(), title, description: description || null, status, assignee: assignee.toLowerCase(), priority, category: category || null, tags: JSON.stringify(tags), dueDate: dueDate || null, createdAt: now, updatedAt: now };
+      db.prepare('INSERT INTO tasks (id,title,description,status,assignee,priority,category,tags,dueDate,createdAt,updatedAt) VALUES (?,?,?,?,?,?,?,?,?,?,?)').run(t.id, t.title, t.description, t.status, t.assignee, t.priority, t.category, t.tags, t.dueDate, t.createdAt, t.updatedAt);
+      return json(res, 201, fmtTask(t));
+    }
+
+    // PATCH /tasks/:id
+    if (method === 'PATCH' && path.match(/^\/tasks\/[^/]+$/)) {
+      const id = path.split('/')[2];
+      const body = await parseBody(req);
+      const existing = db.prepare('SELECT * FROM tasks WHERE id=?').get(id);
+      if (!existing) return json(res, 404, { error: 'Task not found' });
+      const updated = {
+        title: body.title ?? existing.title,
+        description: body.description ?? existing.description,
+        status: body.status ?? existing.status,
+        assignee: body.assignee ? body.assignee.toLowerCase() : existing.assignee,
+        priority: body.priority ?? existing.priority,
+        category: body.category ?? existing.category,
+        tags: body.tags ? JSON.stringify(body.tags) : existing.tags,
+        dueDate: body.dueDate ?? existing.dueDate,
+        updatedAt: Date.now(),
+      };
+      db.prepare('UPDATE tasks SET title=?,description=?,status=?,assignee=?,priority=?,category=?,tags=?,dueDate=?,updatedAt=? WHERE id=?').run(updated.title, updated.description, updated.status, updated.assignee, updated.priority, updated.category, updated.tags, updated.dueDate, updated.updatedAt, id);
+      return json(res, 200, fmtTask({ ...existing, ...updated, id }));
+    }
+
+    // DELETE /tasks/:id
+    if (method === 'DELETE' && path.match(/^\/tasks\/[^/]+$/)) {
+      const id = path.split('/')[2];
+      db.prepare('DELETE FROM tasks WHERE id=?').run(id);
+      return json(res, 200, { ok: true });
     }
 
     json(res, 404, { error: 'Not found' });
