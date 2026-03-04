@@ -10,6 +10,8 @@ interface AgentStatus {
   lastSeen: string;
   currentTask?: string;
   location: string;
+  role?: string;
+  lane?: string[];
 }
 
 interface SystemHealth {
@@ -210,6 +212,21 @@ export function AgentStatusPanel() {
                   {agent.lastSeen}
                 </span>
               </div>
+
+              {agent.role && (
+                <div className="pt-2 border-t border-slate-700/50">
+                  <p className="text-xs text-slate-500 mb-1.5">{agent.role}</p>
+                  {agent.lane && (
+                    <div className="flex flex-wrap gap-1">
+                      {agent.lane.map(tag => (
+                        <span key={tag} className="text-xs bg-slate-700/60 text-slate-400 px-2 py-0.5 rounded-full border border-slate-600/50">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ))}

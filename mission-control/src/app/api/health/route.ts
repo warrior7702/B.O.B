@@ -64,6 +64,8 @@ export async function GET() {
         lastSeen: 'Just now',
         currentTask: 'Active',
         location: 'Camp MacBook Pro (Intel)',
+        role: 'Infrastructure & Orchestration',
+        lane: ['PCO', 'Monitoring', 'Scheduling', 'Approvals', 'Cron Management'],
       },
       {
         id: 'cornerstone',
@@ -72,8 +74,10 @@ export async function GET() {
         status: 'online',
         model: 'anthropic/claude-sonnet-4-6',
         lastSeen: 'Just now',
-        currentTask: 'Awaiting tasks',
+        currentTask: 'DOORY systems',
         location: 'FBCA Office (M1)',
+        role: 'DOORY & Church Systems',
+        lane: ['Door Scheduling', 'MonitorCast', 'Calendar App', 'Research', 'Orchestration'],
       },
       {
         id: 'dubya',
@@ -82,8 +86,10 @@ export async function GET() {
         status: 'online',
         model: 'openrouter/deepseek/deepseek-r1',
         lastSeen: 'Just now',
-        currentTask: 'Standing by',
+        currentTask: 'Email & Calendar PA',
         location: 'FBCA Office (Windows PC)',
+        role: 'Personal Assistant',
+        lane: ['M365 Email', 'Gmail', 'iCloud', 'Calendar', 'Day-to-Day Ops'],
       },
     ],
   });
