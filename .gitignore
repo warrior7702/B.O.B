@@ -39,3 +39,8 @@ Thumbs.db
 *.log
 logs/
 .next/
+mission-control/.env.local
+mission-control/.env
+agent-bus/agentbus.db
+agent-bus/agentbus.db-shm
+agent-bus/agentbus.db-wal

@@ -1,0 +1,3 @@
+@echo off
+echo Starting AgentBus...
+pm2 start server.js --name agent-bus 2>nul || node server.js
